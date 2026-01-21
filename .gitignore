@@ -1,0 +1,8 @@
+/node_modules/
+/src/Services/Order/.env
+/src/Services/Order/node_modules
+/src/Services/product/.env
+/src/Services/product/node_modules
+/src/Services/user/.env
+/src/Services/user/node_modules
+/rabbitQueue/

@@ -1,0 +1,26 @@
+{
+  "name": "microservices",
+  "version": "1.0.0",
+  "description": "Learn How MicroServices Work",
+  "license": "ISC",
+  "author": "Pankaj Patel",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "test": "nodemon index.js",
+    "start": "nodemon gataway.service.js"
+  },
+  "dependencies": {
+    "amqplib": "^0.10.9",
+    "autocannon": "^8.0.0",
+    "axios": "^1.13.2",
+    "bcrypt": "^6.0.0",
+    "cors": "^2.8.5",
+    "express": "^5.2.1",
+    "express-http-proxy": "^2.1.2",
+    "jsonwebtoken": "^9.0.3",
+    "mongoose": "^9.1.1",
+    "morgan": "^1.10.1",
+    "nodemon": "^3.1.11"
+  }
+}
