@@ -1,6 +1,8 @@
 import express from "express";
 import { connectDB } from "./config/db.config.js";
 import userRouter from "./routes/auth.routes.js";
+import dotenv from "dotenv";
+dotenv.config();
 
 const app = express();
 const port = 5001;
