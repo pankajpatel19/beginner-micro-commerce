@@ -3,11 +3,10 @@ import { connectDB } from "./config/db.config.js";
 import userRouter from "./routes/auth.routes.js";
 import dotenv from "dotenv";
 import cookieParser from "cookie-parser";
-
 dotenv.config();
 
 const app = express();
-const port = 5001;
+export const port = 5001;
 
 connectDB();
 

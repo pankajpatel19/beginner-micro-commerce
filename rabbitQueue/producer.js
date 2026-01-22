@@ -1,17 +1,11 @@
 import amqplib from "amqplib";
 
-async function producer() {
+async function producer(message) {
   try {
     const connection = await amqplib.connect("amqp://localhost");
     const channel = await connection.createChannel();
     const exchange = "mail";
     const routingKey = "sendMail";
-
-    const message = {
-      to: "jinal@gmail.com",
-      from: "pakabhai@gmail.com",
-      subject: "nana",
-    };
 
     await channel.assertExchange(exchange, "direct", { durable: false });
     await channel.assertQueue("nodemailer", { durable: false });
@@ -28,4 +22,4 @@ async function producer() {
   }
 }
 
-producer();
+export default producer;

@@ -1,3 +1,4 @@
+import producer from "../../../../rabbitQueue/producer.js";
 import User from "../models/user.model.js";
 import jwt from "jsonwebtoken";
 
@@ -41,10 +42,14 @@ export const login = async (req, res) => {
       expiresIn: "1h",
     });
 
+    const message = { to: email, subject: "login detected" };
+    await producer(message);
+    console.log("done");
+
     res.cookie("token", token, { httpOnly: true }).status(200).json({ token });
   } catch (error) {
-    res.status(500).json({ message: error.message });
     console.error(error.message);
+    return res.status(500).json({ message: error.message });
   }
 };
 

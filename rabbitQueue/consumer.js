@@ -1,4 +1,5 @@
 import amqplib from "amqplib";
+import { loginEmail } from "../src/Services/user/utils/mail.js";
 
 async function consumer() {
   try {
@@ -7,9 +8,19 @@ async function consumer() {
 
     await channel.assertQueue("nodemailer", { durable: false });
 
-    channel.consume("nodemailer", (message) => {
-      if (message !== null) {
-        console.log(JSON.parse(message.content));
+    channel.consume("nodemailer", async (message) => {
+      try {
+        if (message !== null) {
+          const { to, subject } = JSON.parse(message.content.toString());
+
+          await loginEmail(to, subject);
+          console.log("successfully mail send");
+
+          channel.ack(message);
+        }
+      } catch (mailerror) {
+        console.log("mail error ", mailerror.message);
+        channel.nack(message, false, null);
       }
     });
   } catch (error) {
