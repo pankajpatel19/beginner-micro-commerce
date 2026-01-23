@@ -4,6 +4,7 @@ export const createProduct = async (req, res) => {
   try {
     const { name, description, price, quantity, category, image } = req.body;
     const product = new Product({
+      user_id: req.user.userId,
       name,
       description,
       price,
@@ -20,7 +21,7 @@ export const createProduct = async (req, res) => {
 };
 export const getAllProducts = async (req, res) => {
   try {
-    const products = await Product.find();
+    const products = await Product.find().select("-user_id");
     res.status(200).json(products);
   } catch (error) {
     console.error(error.message);

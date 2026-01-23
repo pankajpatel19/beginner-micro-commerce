@@ -2,6 +2,10 @@ import mongoose, { Schema } from "mongoose";
 
 const productSchema = new Schema(
   {
+    user_id: {
+      type: String,
+      required: true,
+    },
     name: {
       type: String,
       required: true,
@@ -42,7 +46,7 @@ const productSchema = new Schema(
       default: false,
     },
   },
-  { timestamps: true }
+  { timestamps: true },
 );
 
 productSchema.index({ name: 1 }, { unique: true });
