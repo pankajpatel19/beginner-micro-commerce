@@ -9,6 +9,7 @@ export const userAuth = async (req, res, next) => {
     }
 
     const decode = jwt.verify(token, process.env.JWT_SECRET);
+
     if (!decode) {
       return res.status(404).json({ message: "user Not Found" });
     }
