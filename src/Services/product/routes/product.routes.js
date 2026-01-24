@@ -19,7 +19,17 @@ productRouter.get(
   roleAccess("user"),
   getProductById,
 );
-productRouter.put("/products/:id", updateProduct);
-productRouter.delete("/products/:id", deleteProduct);
+productRouter.patch(
+  "/products/:id",
+  userAuth,
+  roleAccess("admin"),
+  updateProduct,
+);
+productRouter.delete(
+  "/products/:id",
+  userAuth,
+  roleAccess("admin"),
+  deleteProduct,
+);
 
 export default productRouter;
