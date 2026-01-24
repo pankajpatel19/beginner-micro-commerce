@@ -1,18 +1,17 @@
+import dotenv from "dotenv";
+dotenv.config();
 import express from "express";
 import cors from "cors";
-import productRouter from "./routes/product.routes.js";
-import { connectDB } from "./config/db.config.js";
-import dotenv from "dotenv";
 import cookieParser from "cookie-parser";
-dotenv.config();
+import CartRoutes from "./routes/cart.routes.js";
+import { connectDB } from "./config/db.cofib.js";
 
 const app = express();
 app.use(cors());
 app.use(cookieParser());
 app.use(express.json());
-app.use("/api/product", productRouter);
-
 connectDB();
+app.use("/api/cart", CartRoutes);
 
 const PORT = process.env.PORT || 5004;
 app.listen(PORT, () => {
