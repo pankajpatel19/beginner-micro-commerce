@@ -1,4 +1,4 @@
-import producer from "../../../../rabbitQueue/producer.js";
+import producer from "../rabbitQueue/producer.js";
 import User from "../models/user.model.js";
 import jwt from "jsonwebtoken";
 

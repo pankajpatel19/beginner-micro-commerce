@@ -5,8 +5,7 @@ export const addToCart = async (req, res, next) => {
   try {
     const { productId, quantity } = req.body;
 
-    const product = await fetchProduct(productId);
-    console.log(product);
+    const product = await fetchProduct(req, productId);
 
     if (!product) {
       return res.status(404).json({ message: "Product Not Found" });

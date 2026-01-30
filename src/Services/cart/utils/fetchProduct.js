@@ -1,10 +1,26 @@
 import axios from "axios";
-async function fetchProduct(productId) {
+
+function getToken(req, res) {
+  try {
+    const token = req.cookies?.token;
+
+    return token;
+  } catch (error) {
+    console.log(error.message);
+  }
+}
+
+async function fetchProduct(req, productId) {
+  const token = getToken(req);
   try {
     const response = await axios.get(
       `http://localhost:5002/api/product/products/${productId}`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      },
     );
-    console.log("response : ", response);
     return response.data;
   } catch (error) {
     console.log(error.message);

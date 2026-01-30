@@ -1,0 +1,95 @@
+
+services:
+  mongodb: 
+    image: mongo:latest
+    ports:
+    - "27017:27017"
+    healthcheck:
+      test: ["CMD", "mongosh","--eval","db.adminCommand('ping')"]
+      interval: 10s
+      timeout: 30s
+      retries: 5
+      start_period: 30s
+
+  # 1. API Gateway (Entry Point)
+  gateway:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8000"
+    volumes:
+      - .:/app
+      - /app/node_modules
+    depends_on:
+      user-service:
+        condition: service_started
+      product-service:
+        condition: service_started
+      cart-service:
+        condition: service_started
+      
+
+  # 2. User Service
+  user-service:
+    build: ./src/Services/user
+    ports:
+      - "5001:5001"
+    restart: always
+    env_file:
+      - ./src/Services/user/.env
+    volumes:
+      - ./src/Services/user:/app
+      - ./rabbitQueue:/app/rabbitQueue 
+      - /app/node_modules         
+    depends_on:
+      mongodb:
+        condition: service_healthy
+
+  # 3. Product Service
+  product-service:
+    build: ./src/Services/product  # Long syntax ki jagah short syntax use kar
+    ports:
+      - "5002:5002"
+    restart: always
+    env_file:
+      - ./src/Services/product/.env
+    volumes:
+      - ./src/Services/product:/app
+      - /app/node_modules
+    depends_on:
+      mongodb:
+        condition: service_healthy
+
+  # 4. Order Service
+  # order-service:
+  #   build: ./src/Services/Order
+  #   ports:
+  #     - "5003:5003"
+  #   env_file:
+  #     - ./src/Services/Order/
+  #   volumes:
+  #     - ./src/Services/Order:/app
+  #     - /app/node_modules
+  #   depends_on:
+  #     mongodb:
+  #       condition: service_healthy
+
+  # 5. Cart Service
+  cart-service:
+    build: ./src/Services/cart
+    ports:
+      - "5004:5004"
+    restart: always
+    env_file:
+      - ./src/Services/cart/.env
+    volumes:
+      - ./src/Services/cart:/app
+      - /app/node_modules
+    depends_on:
+      mongodb:
+        condition: service_healthy
+
+networks:
+  default:
+    name: marketplace-network
