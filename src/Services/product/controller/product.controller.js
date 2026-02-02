@@ -1,3 +1,4 @@
+import { producer } from "../kafka/client.js";
 import Product from "../models/product.model.js";
 
 export const createProduct = async (req, res) => {
@@ -13,6 +14,21 @@ export const createProduct = async (req, res) => {
       image,
     });
     await product.save();
+
+    await producer.send({
+      topic: "SaveToLocal",
+      messages: [
+        {
+          value: JSON.stringify({
+            productId: product._id,
+            name: product.name,
+            quantity: product.quantity,
+          }),
+        },
+      ],
+    });
+    console.log("send to local");
+
     res.status(201).json(product);
   } catch (error) {
     console.error(error.message);

@@ -4,7 +4,6 @@ import express from "express";
 import { connectDB } from "./config/db.config.js";
 import userRouter from "./routes/auth.routes.js";
 import cookieParser from "cookie-parser";
-console.log(process.env.MAIL_USER);
 
 const app = express();
 export const port = process.env.PORT || 5001;
